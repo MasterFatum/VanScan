@@ -8,36 +8,41 @@ def scan_port(host):
     ports = {20: "FTP-DATA", 21: "FTP", 22: "SSH", 23: "Telnet",
         25: "SMTP", 43: "WHOIS", 53: "DNS", 80: "http",
         115: "SFTP", 123: "NTP", 143: "IMAP", 161: "SNMP",
-        179: "BGP", 443: "HTTPS", 445: "MICROSOFT-DS",
+        179: "BGP", 443: "HTTPS", 445: "MICROSOFT-DS (EternalBlue)",
         514: "SYSLOG", 515: "PRINTER", 993: "IMAPS",
         995: "POP3S", 1080: "SOCKS", 1194: "OpenVPN",
         1433: "SQL Server", 1723: "PPTP", 3128: "HTTP",
         3268: "LDAP", 3306: "MySQL", 3389: "RDP",
         5432: "PostgreSQL", 5900: "VNC", 8080: "Tomcat", 10000: "Webmin"}
+    try:
+        ip = socket.gethostbyname(host)
 
-    host_name = sys.argv[1]
-    host = socket.gethostbyname(host_name)
+        for port in ports:
+            cont = socket.socket()
+            cont.settimeout(1)
+            try:
+                cont.connect((ip, port))
+            except socket.error:
+                pass
+            else:
+                print(f"{socket.gethostbyname(ip)}:{str(port)} is open/{ports[port]}")
+                cont.close()
 
-    for port in ports:
-        cont = socket.socket()
-        cont.settimeout(1)
-        try:
-            cont.connect((host, port))
-        except socket.error:
-            pass
-        else:
-            print(f"{socket.gethostbyname(host)}:{str(port)} is open/{ports[port]}")
-            cont.close()
+    except Exception as e:
+        print(e)
 
 
     ends = datetime.now()
-    print("<Time:{}>".format(ends - start))
+    print("<Time: {}>".format(ends - start))
     input("Press Enter to the exit....")
 
 
 
 
 if __name__ == '__main__':
-    pass
+    print('Welcome to VAN Port Scanner!' + '\n')
+    host = input('Enter the host name or IP address: ')
+    if host:
+        scan_port(host)
 
 

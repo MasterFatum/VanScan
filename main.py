@@ -3,7 +3,7 @@ from datetime import datetime
 import sys
 
 def scan_port(host):
-    start = datetime.now()
+    start = datetime.now().replace(microsecond=0)
 
     ports = {20: "FTP-DATA", 21: "FTP", 22: "SSH", 23: "Telnet",
         25: "SMTP", 43: "WHOIS", 53: "DNS", 80: "http",
@@ -32,7 +32,7 @@ def scan_port(host):
         print(e)
 
 
-    ends = datetime.now()
+    ends = datetime.now().replace(microsecond=0)
     print("<Time: {}>".format(ends - start))
     input("Press Enter to the exit....")
 

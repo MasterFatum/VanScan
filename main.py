@@ -66,19 +66,20 @@ def main():
              179, 443, 445, 514, 515, 993, 995, 1080, 1194,
              1433, 1723, 3128, 3268, 3306, 3389, 5432, 5900, 8080, 10000]
 
-    choice = input("Choose mode:\n1 - Scan single host\n2 - Scan IP range (e.g. 192.168.1.0/24)\n> ")
+    choice = input("Choose mode:\n1 - Scan single host\n2 - Scan IP range (e.g. 192.168.1.0/24)\n3 - Exit\n> ")
 
-    if choice == "1":
-        host = input('Enter the host name or IP address: ')
-        if host:
-            scan_port(host, ports)
-    elif choice == "2":
-        ip_range = input("Enter IP range (CIDR format, e.g. 192.168.1.0/24): ")
-        scan_ip_range(ip_range, ports)
-    else:
-        print("Invalid choice!")
+    match choice:
+        case "1":
+            host = input('Enter the host name or IP address: ')
+            if host:
+                scan_port(host, ports)
 
-    input("\nPress Enter to exit....")
+        case "2":
+            ip_range = input("Enter IP range (CIDR format, e.g. 192.168.1.0/24): ")
+            scan_ip_range(ip_range, ports)
+        case "3":
+            exit(0)
+
 
 if __name__ == '__main__':
     main()
